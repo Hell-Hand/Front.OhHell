@@ -2,6 +2,9 @@ import { Flame, Swords } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import classicBg from '@/games/classic/assets/backgrounds/game-table-bg.png';
+import card1Espada8Bit from '@/games/classic/assets/cards/spanish-8bit/1espada.png';
+import card3Paus8Bit from '@/games/classic/assets/cards/spanish-8bit/3paus.png';
+import card12Copas8Bit from '@/games/classic/assets/cards/spanish-8bit/12copas.png';
 import hellHandBg from '@/games/hell-hand/assets/backgrounds/hell-hand-bg.avif';
 import { cn } from '@/shared/lib/utils.js';
 
@@ -13,6 +16,9 @@ const gameModes = [
     image: classicBg,
     labelKey: 'pages.gameModeSelect.classic.title',
     path: '/classic',
+    cards: [card1Espada8Bit, card12Copas8Bit, card3Paus8Bit],
+    statusKey: 'pages.gameModeSelect.classic.status',
+    statusClass: 'border-emerald-400/35 bg-emerald-950/90 text-emerald-300',
   },
   {
     accentClass: 'from-red-950/80 via-black/55 to-stone-950/80',
@@ -21,6 +27,8 @@ const gameModes = [
     image: hellHandBg,
     labelKey: 'pages.gameModeSelect.hellHand.title',
     path: '/hell-hand',
+    statusKey: 'pages.gameModeSelect.hellHand.status',
+    statusClass: 'border-stone-400/30 bg-stone-800/90 text-stone-300',
   },
 ];
 
@@ -39,6 +47,27 @@ function ModeCard({ mode, t }) {
         draggable="false"
       />
       <div className={cn('absolute inset-0 bg-gradient-to-br', mode.accentClass)} />
+      {mode.cards ? (
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute left-1/2 top-[30%] h-32 w-44 -translate-x-1/2 -translate-y-1/2 transition duration-500 group-hover:scale-105 md:top-[34%] md:h-40 md:w-56"
+        >
+          {mode.cards.map((card, index) => (
+            <img
+              key={card}
+              src={card}
+              alt=""
+              draggable="false"
+              className={cn(
+                'absolute w-auto rounded shadow-2xl shadow-black/70 [image-rendering:pixelated]',
+                index === 0 && 'left-2 top-4 z-10 h-24 -rotate-[14deg] md:h-32',
+                index === 1 && 'right-2 top-4 z-10 h-24 rotate-[14deg] md:h-32',
+                index === 2 && 'left-1/2 top-0 z-20 h-28 -translate-x-1/2 md:h-36',
+              )}
+            />
+          ))}
+        </div>
+      ) : null}
       <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-black via-black/60 to-transparent" />
 
       <div className="relative z-10 flex min-h-full w-full flex-col justify-between p-5 sm:p-6">
@@ -52,6 +81,17 @@ function ModeCard({ mode, t }) {
           </span>
           <span className="mt-3 block max-w-md text-sm font-semibold leading-6 text-white/72 md:text-base md:leading-7">
             {t(mode.descriptionKey)}
+          </span>
+          <span className="mt-4 flex justify-end">
+            <span
+              className={cn(
+                'inline-flex items-center gap-2 rounded-full border px-3 py-1 text-xs font-bold backdrop-blur',
+                mode.statusClass,
+              )}
+            >
+              <span aria-hidden="true" className="size-1.5 rounded-full bg-current" />
+              {t(mode.statusKey)}
+            </span>
           </span>
         </span>
       </div>

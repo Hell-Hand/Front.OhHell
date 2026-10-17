@@ -10,6 +10,29 @@ test.describe('game mode selection', () => {
     await expect(page.locator('a[href="/hell-hand"]')).toBeVisible();
   });
 
+  for (const { language, live, soon } of [
+    { language: 'en', live: 'Live', soon: 'Coming soon' },
+    { language: 'pt', live: 'Disponível', soon: 'Em breve' },
+  ]) {
+    test(`shows table availability and pixel cards in ${language}`, async ({ page }) => {
+      await page.evaluate((value) => localStorage.setItem('ohhell_language', value), language);
+      await page.reload();
+
+      const classicCard = page.locator('a[href="/classic"]');
+      await expect(classicCard.getByText(live, { exact: true })).toBeVisible();
+      await expect(
+        page.locator('a[href="/hell-hand"]').getByText(soon, { exact: true }),
+      ).toBeVisible();
+
+      const cards = classicCard.locator('img[src*="spanish-8bit"]');
+      await expect(cards).toHaveCount(3);
+      for (const card of await cards.all()) {
+        await expect(card).toBeVisible();
+        await expect.poll(() => card.evaluate((image) => image.naturalWidth)).toBeGreaterThan(0);
+      }
+    });
+  }
+
   test('opens the classic home', async ({ page }) => {
     await page.locator('a[href="/classic"]').click();
 

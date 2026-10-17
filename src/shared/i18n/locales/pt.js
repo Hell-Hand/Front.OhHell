@@ -258,11 +258,13 @@ export const pt = {
       classic: {
         description: 'O modo classico de apostas e vazas com regras diretas e rodadas rapidas.',
         title: 'Fodinha Classic',
+        status: 'Disponível',
       },
       hellHand: {
         description:
           'Uma mesa mais sombria com mercenarios, maldicoes, cartas de poder e apostas desesperadas.',
         title: 'Hell Hand',
+        status: 'Em breve',
       },
     },
     hellHandHome: {

@@ -262,10 +262,12 @@ export const en = {
       classic: {
         description: 'The classic bid-and-trick mode with clean rules and fast rounds.',
         title: 'Fodinha Classic',
+        status: 'Live',
       },
       hellHand: {
         description: 'A darker table of mercenaries, curses, power cards, and desperate bets.',
         title: 'Hell Hand',
+        status: 'Coming soon',
       },
     },
     hellHandHome: {
